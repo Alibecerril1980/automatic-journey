@@ -37,9 +37,8 @@ function render() {
 function renderQuotes() {
   const query = $('#searchInput').value.toLowerCase();
   const filtered = state.quotes.filter(q => `${q.text} ${q.author} ${q.category}`.toLowerCase().includes(query));
-  $('#quoteList').innerHTML = filtered.length ? filtered.map(q => `<article><span class="quote-mark">“</span><div><blockquote>${escapeHTML(q.text)}</blockquote><p>${escapeHTML(q.author)} · <span>${escapeHTML(q.category)}</span></p></div><button data-queue="${q.id}" aria-label="Añadir a la cola">＋</button></article>`).join('') : '<p class="empty">No encontramos frases con esa búsqueda.</p>';
+  $('#quoteList').innerHTML = filtered.length ? filtered.map(q => `<article><span class="quote-mark">“</span><div><blockquote>${QuoteEngine.escapeHTML(q.text)}</blockquote><p>${QuoteEngine.escapeHTML(q.author)} · <span>${QuoteEngine.escapeHTML(q.category)}</span></p></div><button data-queue="${QuoteEngine.escapeHTML(q.id)}" aria-label="Añadir a la cola">＋</button></article>`).join('') : '<p class="empty">No encontramos frases con esa búsqueda.</p>';
 }
-function escapeHTML(value) { const node = document.createElement('div'); node.textContent = value; return node.innerHTML; }
 function updateProjection() {
   const hourly = Number($('#hourlyGoal').value), hours = Number($('#hoursGoal').value);
   $('#hourlyOutput').textContent = money(hourly); $('#hoursOutput').textContent = `${hours} h`; $('#weeklyProjection').textContent = money(hourly * hours);

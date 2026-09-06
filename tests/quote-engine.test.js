@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { normalizeQuote, parseCSV, parseImport, calculateMetrics } = require('../quote-engine');
+const { normalizeQuote, parseCSV, parseImport, calculateMetrics, escapeHTML } = require('../quote-engine');
 
 test('normaliza nombres de campos en español', () => {
   assert.deepEqual({ ...normalizeQuote({ frase: ' Sigue.', autor: 'Ana', categoria: 'Vida' }, 1), id: 'fixed' }, { id: 'fixed', text: 'Sigue.', author: 'Ana', category: 'Vida' });
@@ -14,4 +14,8 @@ test('interpreta CSV con comas entre comillas', () => {
 test('calcula métricas solo con ingresos y publicaciones reales', () => {
   const result = calculateMetrics([{ category: 'A' }, { category: 'A' }], [{ status: 'published' }, { status: 'queued' }], [{ amount: 250 }]);
   assert.deepEqual(result, { quoteCount: 2, categoryCount: 1, queued: 2, actual: 250, valuePerPost: 250 });
+});
+test('escapa identificadores importados antes de insertarlos en HTML', () => {
+  const [quote] = parseImport(JSON.stringify([{ id: '\"><img src=x onerror=alert(1)>', text: 'Segura' }]), 'json');
+  assert.equal(escapeHTML(quote.id), '&quot;&gt;&lt;img src=x onerror=alert(1)&gt;');
 });

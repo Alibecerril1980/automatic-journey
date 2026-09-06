@@ -29,11 +29,21 @@
     return items.map(normalizeQuote).filter(Boolean);
   }
 
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[character]);
+  }
+
   function calculateMetrics(quotes, queue, revenues) {
     const actual = revenues.reduce((sum, entry) => sum + Number(entry.amount || 0), 0);
     const published = queue.filter(item => item.status === 'published').length;
     return { quoteCount: quotes.length, categoryCount: new Set(quotes.map(q => q.category)).size, queued: queue.length, actual, valuePerPost: published ? actual / published : 0 };
   }
 
-  return { normalizeQuote, parseCSV, parseImport, calculateMetrics };
+  return { normalizeQuote, parseCSV, parseImport, calculateMetrics, escapeHTML };
 });
