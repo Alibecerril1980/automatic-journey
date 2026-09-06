@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Organiza, publica y mide tu biblioteca de frases.">
+  <title>QuoteFlow — Convierte ideas en un sistema</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#inicio" aria-label="QuoteFlow, inicio"><span>Q</span> QuoteFlow</a>
+    <nav aria-label="Navegación principal">
+      <a class="active" href="#inicio">⌂ <span>Resumen</span></a>
+      <a href="#biblioteca">◫ <span>Biblioteca</span></a>
+      <a href="#plan">◇ <span>Plan de publicación</span></a>
+      <a href="#ingresos">↗ <span>Ingresos</span></a>
+    </nav>
+    <div class="privacy"><strong>Datos privados</strong><p>Todo se guarda en este navegador.</p></div>
+  </aside>
+
+  <main id="inicio">
+    <header>
+      <div><p class="eyebrow">CENTRO DE OPERACIONES</p><h1>Buenos días, creador.</h1><p class="subtitle">Una frase a la vez. Mide lo real, mejora lo siguiente.</p></div>
+      <div class="header-actions"><button class="ghost" id="importButton">↑ Importar frases</button><button class="primary" id="addButton">＋ Nueva frase</button></div>
+      <input id="fileInput" type="file" accept=".json,.csv" hidden>
+    </header>
+
+    <section class="notice" aria-label="Aviso importante"><span>i</span><div><strong>Una meta no es una garantía.</strong><p>QuoteFlow organiza contenido y registra resultados; no genera depósitos ni se conecta a cuentas bancarias.</p></div><button id="dismissNotice" aria-label="Cerrar aviso">×</button></section>
+
+    <section class="metrics" aria-label="Métricas principales">
+      <article><div class="metric-title"><span class="icon violet">◫</span> Frases disponibles</div><strong id="quoteCount">0</strong><small id="categoryCount">0 categorías</small></article>
+      <article><div class="metric-title"><span class="icon amber">◇</span> En cola esta semana</div><strong id="queueCount">0</strong><small>de <span id="weeklyGoalText">15</span> publicaciones</small></article>
+      <article><div class="metric-title"><span class="icon green">$</span> Ingreso registrado</div><strong id="actualRevenue">$0</strong><small>Solo resultados confirmados</small></article>
+      <article><div class="metric-title"><span class="icon blue">◎</span> Valor por publicación</div><strong id="valuePerPost">$0</strong><small>Ingreso real ÷ publicaciones</small></article>
+    </section>
+
+    <section class="grid">
+      <article class="panel" id="plan">
+        <div class="panel-head"><div><p class="eyebrow">PLAN SEMANAL</p><h2>Tu ritmo de publicación</h2></div><span class="badge">Esta semana</span></div>
+        <div class="progress-copy"><span>Progreso</span><strong id="progressLabel">0 de 15</strong></div><div class="progress"><i id="progressBar"></i></div>
+        <div class="channel-list" id="channelList"></div>
+        <button class="wide" id="queueButton">Preparar siguiente frase →</button>
+      </article>
+
+      <article class="panel projection" id="ingresos">
+        <div class="panel-head"><div><p class="eyebrow">ESCENARIO, NO PROMESA</p><h2>Calculadora de objetivo</h2></div><span class="badge warning">Estimación</span></div>
+        <label>Objetivo por hora <span id="hourlyOutput">$5,000</span><input id="hourlyGoal" type="range" min="100" max="5000" step="100" value="5000"></label>
+        <label>Horas activas por semana <span id="hoursOutput">10 h</span><input id="hoursGoal" type="range" min="1" max="40" value="10"></label>
+        <div class="projection-total"><small>Escenario semanal</small><strong id="weeklyProjection">$50,000</strong><p>Para alcanzar esta cifra necesitas validar demanda, precio y conversión. No es ingreso esperado.</p></div>
+        <button class="wide secondary" id="recordButton">＋ Registrar ingreso real</button>
+      </article>
+    </section>
+
+    <section class="panel library" id="biblioteca">
+      <div class="panel-head"><div><p class="eyebrow">BIBLIOTECA</p><h2>Frases listas para trabajar</h2></div><input id="searchInput" type="search" placeholder="Buscar frase o autor…" aria-label="Buscar frases"></div>
+      <div id="quoteList" class="quote-list"></div>
+    </section>
+  </main>
+
+  <dialog id="quoteDialog"><form method="dialog" id="quoteForm"><button class="close" type="button" data-close="quoteDialog" aria-label="Cerrar">×</button><p class="eyebrow">NUEVA IDEA</p><h2>Añadir una frase</h2><label>Frase<textarea name="text" required maxlength="280" placeholder="Escribe algo que valga la pena compartir"></textarea></label><label>Autor<input name="author" required placeholder="Nombre del autor"></label><label>Categoría<input name="category" required placeholder="Ej. Liderazgo"></label><button class="primary" value="default">Guardar frase</button></form></dialog>
+  <dialog id="revenueDialog"><form method="dialog" id="revenueForm"><button class="close" type="button" data-close="revenueDialog" aria-label="Cerrar">×</button><p class="eyebrow">RESULTADO CONFIRMADO</p><h2>Registrar ingreso</h2><label>Monto en USD<input name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00"></label><label>Origen<input name="source" required placeholder="Ej. Licencia de contenido"></label><button class="primary" value="default">Guardar resultado</button></form></dialog>
+
+  <script src="quote-engine.js"></script><script src="app.js"></script>
+</body>
+</html>
